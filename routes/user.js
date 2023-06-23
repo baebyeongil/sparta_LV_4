@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const User = require("../schemas/user.js")
+
+const { Users } = require("../models")
 
 // 정규식
 const nicknamecheck = /^(?=.*[\da-zA-Z])[0-9a-zA-Z]{3,}$/;
@@ -8,7 +9,7 @@ const nicknamecheck = /^(?=.*[\da-zA-Z])[0-9a-zA-Z]{3,}$/;
 // 회원가입 API
 router.post("/users", async (req, res) => {
     const { nickname, password, confirmPassword } = req.body;
-    const nicknames = await User.findOne({ nickname: nickname })
+    const nicknames = await Users.findOne({ where: { nickname: nickname } })
 
     if (nicknames) {
         return res.status(400).json({
@@ -34,7 +35,7 @@ router.post("/users", async (req, res) => {
             errorMessage: "패스워드가 패스워드 확인란과 다릅니다.",
         })
     }
-    await User.create({
+    await Users.create({
         nickname: nickname,
         password: password
     })
@@ -44,4 +45,4 @@ router.post("/users", async (req, res) => {
     })
 });
 
-module.exports = router;
+module.exports = router

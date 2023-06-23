@@ -1,14 +1,15 @@
 const express = require("express")
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
+
 const router = express.Router()
 
-const User = require("../schemas/user.js")
+const { Users } = require("../models")
 
 // 로그인 API
 router.post("/auth", async (req, res) => {
     const { nickname, password } = req.body;
 
-    const user = await User.findOne({ nickname });
+    const user = await Users.findOne({ where: { nickname: nickname } })
 
     // NOTE: 인증 메세지는 자세히 설명하지 않는것을 원칙으로 한다.
     if (!user || password !== user.password) {
@@ -27,4 +28,4 @@ router.post("/auth", async (req, res) => {
     res.status(200).json({ token }); // JWT를 Body로 할당합니다!
 });
 
-module.exports = router;
+module.exports = router
