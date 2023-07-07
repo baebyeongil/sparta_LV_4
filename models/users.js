@@ -14,7 +14,21 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Posts, {
         // 2. Posts 모델에게 1:N 관계 설정을 합니다.
         sourceKey: 'userId', // 3. Users 모델의 userId 컬럼을
-        foreignKey: 'UserId', // 4. Posts 모델의 UserId 컬럼과 연결합니다.
+        foreignKey: 'PUserId', // 4. Posts 모델의 UserId 컬럼과 연결합니다.
+      });
+
+      // 1. Users 모델에서
+      this.hasMany(models.Comments, {
+        // 2. Comments 모델에게 1:N 관계 설정을 합니다.
+        sourceKey: 'userId', // 3. Users 모델의 userId 컬럼을
+        foreignKey: 'CUserId', // 4. Comments 모델의 CUserId 컬럼과 연결합니다.
+      });
+
+      // 1. Users 모델에서
+      this.hasMany(models.Likes, {
+        // 2. Comments 모델에게 1:N 관계 설정을 합니다.
+        sourceKey: 'userId', // 3. Users 모델의 userId 컬럼을
+        foreignKey: 'LUser_Id', // 4. Comments 모델의 CUserId 컬럼과 연결합니다.
       });
     }
   }
@@ -36,18 +50,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false, // NOT NULL
         type: DataTypes.STRING,
       },
-      createdAt: {
-        allowNull: false, // NOT NULL
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
-      updatedAt: {
-        allowNull: false, // NOT NULL
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
     },
     {
+      timestamps: false,
       sequelize,
       modelName: 'Users',
     },

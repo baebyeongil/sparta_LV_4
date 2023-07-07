@@ -19,14 +19,12 @@ router.post('/users', async (req, res) => {
   } else if (!nicknamecheck.test(nickname)) {
     return res.status(400).json({
       success: false,
-      message:
-        '닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성해 주세요.',
+      message: '닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성해 주세요.',
     });
   } else if (password.length < 4 || password.includes(nickname)) {
     return res.status(400).json({
       success: false,
-      errorMessage:
-        '비밀번호는 최소 4자 이상, 닉네임과 같은 값이 포함될 수 없습니다.',
+      errorMessage: '비밀번호는 최소 4자 이상, 닉네임과 같은 값이 포함될 수 없습니다.',
     });
   } else if (password !== confirmPassword) {
     return res.status(400).json({
