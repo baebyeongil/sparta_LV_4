@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Posts, {
         // 2. Posts 모델에게 N:1 관계 설정을 합니다.
         targetKey: 'postId', // 3. Posts 모델의 postId 컬럼을
-        foreignKey: 'LUser_Id', // 4. Likes 모델의 LUser_Id 컬럼과 연결합니다.
+        foreignKey: 'LPost_Id', // 4. Likes 모델의 LUser_Id 컬럼과 연결합니다.
       });
     }
   }

@@ -1,11 +1,11 @@
 const express = require('express');
-const { Sequelize } = require('sequelize');
+// const { Sequelize, where } = require('sequelize');
 
 const router = express.Router();
 
 const { Posts } = require('../models');
 const { Users } = require('../models');
-const { Likes } = require('../models');
+// const { Likes } = require('../models');
 
 const authMiddleware = require('../middlewares/auth-middleware.js');
 
@@ -17,12 +17,13 @@ router.get('/posts', async (req, res) => {
         model: Users,
         attributes: ['nickname'],
       },
-      {
-        model: Likes,
-        attributes: [[Sequelize.fn('COUNT', Sequelize.col('LPost_Id')), 'likecount']],
-      },
+      //   {
+      //     model: Likes,
+      //     attributes: [[Sequelize.fn('COUNT', Sequelize.col('LPost_Id')), 'like']],
+      //   },
     ],
-    order: [['createdAt', 'DESC']],
+    // group: ['LPost_Id'],
+    // order: [['createdAt', 'DESC']],
   });
 
   if (!allPosts.length) {
@@ -33,7 +34,7 @@ router.get('/posts', async (req, res) => {
   return res.status(200).json({ allPosts });
 });
 
-// // postId 값을 가진 게시글 조회
+// postId 값을 가진 게시글 조회
 router.get('/posts/:postId', async (req, res) => {
   const { postId } = req.params;
 
@@ -43,6 +44,10 @@ router.get('/posts/:postId', async (req, res) => {
         model: Users,
         attributes: ['nickname'],
       },
+      // {
+      //   model: Likes,
+      //   attributes: [[Sequelize.fn('COUNT', Sequelize.col('LPost_Id')), 'likecount']],
+      // },
     ],
     where: { postId: postId },
   });
@@ -59,7 +64,6 @@ router.get('/posts/:postId', async (req, res) => {
 router.post('/posts', authMiddleware, async (req, res) => {
   const { userId } = res.locals.user;
   const { title, content } = req.body;
-
   const post = await Posts.create({
     PUserId: userId,
     title,

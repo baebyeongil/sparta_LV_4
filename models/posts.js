@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Likes, {
         // 2. Likes 모델에게 1:N 관계 설정을 합니다.
         sourceKey: 'postId', // 3. Posts 모델의 postId 컬럼을
-        foreignKey: 'LPost_Id', // 4. Comments 모델의 PostId 컬럼과 연결합니다.
+        foreignKey: 'LPost_Id', // 4. Likes 모델의 PostId 컬럼과 연결합니다.
       });
     }
   }
@@ -52,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
       content: {
         allowNull: false, // NOT NULL
         type: DataTypes.STRING,
+      },
+      like: {
+        defaultValue: 0,
+        type: DataTypes.INTEGER,
       },
       createdAt: {
         allowNull: false, // NOT NULL
